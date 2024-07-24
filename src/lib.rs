@@ -75,6 +75,11 @@ pub fn generate_from_impls(input: TokenStream) -> TokenStream {
 
     quote! {
         #(#generated_tokens)*
+        impl From<anyhow::Error> for #enum_name {
+            fn from(value: anyhow::Error) -> Self {
+                #enum_name::#anyhow_variant(value.into())
+            }
+        }
     }.into()
 }
 
